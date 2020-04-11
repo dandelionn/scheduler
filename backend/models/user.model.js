@@ -20,6 +20,7 @@ schema.pre('save', async function save(next) {
     }
 });
 
+
 schema.methods.validatePassword = async function validatePassword(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 }
