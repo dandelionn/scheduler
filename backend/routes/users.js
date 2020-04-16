@@ -36,7 +36,7 @@ router.post('/register',  async (req, res) => {
 router.post('/token', (req, res) => {
     const refreshToken = req.body.token 
     if (refreshToken == null) return res.sendStatus(401)
-    if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403) //refreseh tokens should be in the database
+   // if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403) //refreseh tokens should be in the database
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403)
         const accessToken = generateAccesToken({ name: user.name })
@@ -72,7 +72,7 @@ function generateTokens(payload) {
 }
 
 function generateAccesToken(payload) {
-    return jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), {expiresIn: '30s'})
+    return jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), {expiresIn: '3000s'})
 }
 
 module.exports = router;
