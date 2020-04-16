@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     email: { type: String, required: true, index: {unique: true}, validate: [isEmail, 'invalid email'] },
     password: { type: String, required: true },
+    refreshTokens: [ { type: String } ]
 });
 
 const SALT_FACTOR = 10;

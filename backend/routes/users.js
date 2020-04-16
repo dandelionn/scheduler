@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 const auth = require('../middleware/auth')
 
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => { //TO BE DELETED, IT EXISTS ONLY FOR TESTING PURPOSES
     User.find()
         .then(users => res.json(users))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -13,6 +13,7 @@ router.get('/', auth, async (req, res) => {
 router.get('/user', auth, (req, res) => {
     User.findById(req.user.id)
         .select('-password')
+        .select('-refreshTokens')
         .then(user => res.json(user));
 });
 
@@ -28,21 +29,13 @@ router.post('/register',  async (req, res) => {
            .then( user => {
             const payload = { id: user.id }
             tokens = generateTokens(payload)
+            user.refreshTokens.push(tokens.refreshToken)
+            user.save()
+                .catch(err => res.status(400).json('Error: ' + err));
             res.json(tokens)
            })
            .catch(err => res.status(400).json('Error: ' + err));
 });
-
-router.post('/token', (req, res) => {
-    const refreshToken = req.body.token 
-    if (refreshToken == null) return res.sendStatus(401)
-   // if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403) //refreseh tokens should be in the database
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403)
-        const accessToken = generateAccesToken({ name: user.name })
-        res.json({accessToken : accessToken})
-    })
-})
 
 router.post('/auth', (req, res) => {
     const { email, password } = req.body;
@@ -52,22 +45,64 @@ router.post('/auth', (req, res) => {
     }
 
     User.findOne({ email })
-    .then(user => {
-        if(!user) return res.status(400).json({msg: 'User does not exists'})
-        user.comparePassword(password, function(err, isMatch) {
-            if (err) throw err;
-            if(!isMatch) res.status(401).json('Password is incorrect');
-            const payload = { id: user.id }
-            tokens = generateTokens(payload)
-            res.json(tokens)
-        });
-    });
+        .then(user => {
+            if(!user) return res.status(400).json({msg: 'User does not exists'})
+            user.comparePassword(password, function(err, isMatch) {
+                if (err) throw err;
+                if(!isMatch) res.status(401).json('Password is incorrect');
+                const payload = { id: user.id }
+                tokens = generateTokens(payload)
+                user.refreshTokens.push(tokens.refreshToken)
+                user.save()
+                    .catch(err => res.status(400).json('Error: ' + err));
+                res.json(tokens)
+            });
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.post('/token', (req, res) => {
+    const {user_id, refreshToken} = req.body
+    if (refreshToken == null || user_id == null) 
+        return res.status("400").send({ msg: 'Please specify a refresh token and an user_id' })
+
+    User.findOne({_id: user_id})
+        .then(user => {
+            if(!user) 
+                return res.status(400).json({msg: 'User does not exists'})
+            if (!user.refreshTokens.includes(refreshToken)) 
+                return res.sendStatus(403);
+            jwt.verify(refreshToken, config.get('REFRESH_TOKEN_SECRET'), (err, user) => {
+                    if (err) return res.sendStatus(403)
+                    const payload = { id: user.id }
+                    const accessToken = generateAccesToken(payload)
+                    res.json({accessToken : accessToken})
+                })
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+})
+
+router.delete('/logout', (req, res) => {
+    const {user_id, refreshToken} = req.body
+
+    if (refreshToken == null || user_id == null) 
+        return res.status("400").send({ msg: 'Please specify a refresh token and an user_id' })
+        
+    User.findOne({_id: user_id})
+        .then(user => {
+            if(!user) 
+                return res.status(400).json({msg: 'User does not exists'})
+            user.refreshTokens.remove(refreshToken)
+            user.save()
+                .then(() => res.sendStatus(204))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 function generateTokens(payload) {
     const accessToken = generateAccesToken(payload)
     const refreshToken = jwt.sign(payload, config.get('REFRESH_TOKEN_SECRET'))
-    //refreshTokens.push(refreshToken)
     return {accessToken, refreshToken}
 }
 
@@ -76,5 +111,3 @@ function generateAccesToken(payload) {
 }
 
 module.exports = router;
-
-////////STORE REFRESH TOKENS IN THE DATABASE
