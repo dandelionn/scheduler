@@ -6,7 +6,7 @@
   "scripts": {
     "install-frontend": "npm --version",
     "install-backend": "cd backend && npm install",
-    "install-dependencies": "npm run intall-frontend && npm run install-backend",
+    "install-dependencies": "npm run install-frontend && npm run install-backend",
     "deploy": "pm2 deploy ecosystem.config.js production",
     "setup-remote-directories": "pm2 deploy ecosystem.config.js production setup"
   },
