@@ -67,7 +67,7 @@ It is not great to run Node.js on port 80 or 443 directly because you may want t
 `curl localhost` 
 And you should see a bunch of html code representing a welcoming page to nginx.
 
-1. If it doesn't work you might needt to start nginx manually
+1. If it doesn't work you might need to start nginx manually
 `sudo /etc/init.d/nginx start`
 
 1. Run:
