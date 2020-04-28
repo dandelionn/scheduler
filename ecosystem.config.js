@@ -11,7 +11,7 @@ module.exports = {
         ref: 'origin/master',
         repo: 'git@github.com:dandelionn/scheduler.git',
         path: '/home/ubuntu/server/scheduler/',
-        'post-deploy': 'npm install && pm2 startOrRestart ecosystem.config.js'
+        'post-deploy': 'npm run install-dependencies && pm2 startOrRestart ecosystem.config.js'
       }
     }
   }
