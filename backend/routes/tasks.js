@@ -1,7 +1,6 @@
 const router = require('express').Router();
 let Task = require('../models/task.model');
 const auth = require('../middleware/auth');
-const config = require('config')
 
 router.get('/', auth, async (req, res) => {
     Task.find({user_id: req.user.id})

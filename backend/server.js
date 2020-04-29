@@ -1,18 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-process.env.NODE_CONFIG_DIR = __dirname + '/config/';
-const config = require('config')
-
-config.util.getEnv('NODE_CONFIG_DIR')
+const config = require('./config.json')
 
 const app = express();
-const port = config.get('PORT');
+const port = config.PORT;
 
 app.use(cors());
 app.use(express.json());
 
-const uri = config.get('DATABASE_URI');
+const uri = config.DATABASE_URI;
 mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology: true, useCreateIndex: true});
 const connection = mongoose.connection;
 connection.once('open', () => {

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 let User = require('../models/user.model');
 const jwt = require('jsonwebtoken')
-const config = require('config')
+const config = require('../config.json')
 const auth = require('../middleware/auth')
 
 router.get('/', auth, async (req, res) => { //TO BE DELETED, IT EXISTS ONLY FOR TESTING PURPOSES
@@ -72,7 +72,7 @@ router.post('/token', (req, res) => {
                 return res.status(400).json({msg: 'User does not exists'})
             if (!user.refreshTokens.includes(refreshToken)) 
                 return res.sendStatus(403);
-            jwt.verify(refreshToken, config.get('REFRESH_TOKEN_SECRET'), (err, user) => {
+            jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET, (err, user) => {
                     if (err) return res.sendStatus(403)
                     const payload = { id: user.id }
                     const accessToken = generateAccesToken(payload)
@@ -102,12 +102,12 @@ router.delete('/logout', (req, res) => {
 
 function generateTokens(payload) {
     const accessToken = generateAccesToken(payload)
-    const refreshToken = jwt.sign(payload, config.get('REFRESH_TOKEN_SECRET'))
+    const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET)
     return {accessToken, refreshToken}
 }
 
 function generateAccesToken(payload) {
-    return jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), {expiresIn: '3000s'})
+    return jwt.sign(payload, config.ACCESS_TOKEN_SECRET, {expiresIn: '3000s'})
 }
 
 module.exports = router;
