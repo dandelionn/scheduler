@@ -10,7 +10,7 @@ module.exports = {
         key: './.ssh/vpskey.pem',
         ref: 'origin/master',
         repo: 'git@github.com:dandelionn/scheduler.git',
-        path: '/home/ubuntu/server/scheduler/',
+        path: '/home/ubuntu/scheduler',
         'post-deploy': 'npm run install-dependencies && pm2 startOrRestart ecosystem.config.js'
       }
     }
