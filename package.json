@@ -11,8 +11,5 @@
     "setup-remote-directories": "pm2 deploy ecosystem.config.js production setup"
   },
   "author": "Paul Michea",
-  "license": "ISC",
-  "dependencies": {
-    "pm2": "^4.4.0"
-  }
+  "license": "ISC"
 }
