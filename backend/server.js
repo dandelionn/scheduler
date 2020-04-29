@@ -1,9 +1,10 @@
-process.env.NODE_CONFIG_DIR = './config'
-
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+process.env.NODE_CONFIG_DIR = __dirname + '/config/';
 const config = require('config')
+
+config.util.getEnv('NODE_CONFIG_DIR')
 
 const app = express();
 const port = config.get('PORT');
