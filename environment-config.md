@@ -137,6 +137,7 @@ Now you can log out/in to SSH, even restart your server and it will continue to 
 #### Going public
 
 For some reason I don't think it is possible to go public from DIGI rcs&rds networks, I played around with port forwarding but had no luck in accessing my website using the public IP and port number. I think that it is a good decision to give up on the raspberry pi here. Maybe it is a good idea to explore some hosting services..
+Update: I have explored available hosting services on the internet I have decided to rent a virtual private server for one year. The name of the vps provider is GWHOST and it is a new romanian company. Shared web hosting wasn't a good option for me because I needed to be able to install custom packages, for example mongodb.
 
 
 ## Decide what database you want to use
@@ -148,6 +149,8 @@ Answer: [Yes, in the context of this application](https://stackoverflow.com/ques
 
 #### [Installation instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 Also have a look at: https://websiteforstudents.com/install-mongodb-on-ubuntu-18-04-lts-beta-server/
+
+If mongo db service fails to start see [this](https://superuser.com/questions/1397079/mongo-cant-start-service).
 
 
 # Configuring the development environment on Windows 10
@@ -233,3 +236,11 @@ Run: `sudo service ssh restart`
 Now open new terminal/konsole tab and try to login with password as you were doing it before. If you get the following error then it means you successfully disabled the password based logins.
 `Permission denied (publickey,gssapi-keyex,gssapi-with-mic).`
 Useful info: [here](https://www.digitalocean.com/community/questions/root-access-with-ssh-permitrootlogin-or-passwordauthentication)
+
+
+## Deploying code into the server
+Follow the steps from [this](https://medium.com/hackernoon/tutorial-creating-and-managing-a-node-js-server-on-aws-part-2-5fbdea95f8a1#.mnlkymeti) tutorial starting at the chapter _Deploying code into the server_.
+
+## Testing your REST API
+In order to test you rest APIs you can use _Advanced REST Client_ available in
+chrome web store: [link](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo/related)
