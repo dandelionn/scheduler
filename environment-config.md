@@ -244,3 +244,6 @@ Follow the steps from [this](https://medium.com/hackernoon/tutorial-creating-and
 ## Testing your REST API
 In order to test you rest APIs you can use _Advanced REST Client_ available in
 chrome web store: [link](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo/related)
+
+## Set up Let's Encrypt with Nginx Server Blocks on Ubuntu
+Follow [this](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) tutorial. 
