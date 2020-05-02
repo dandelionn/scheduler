@@ -6,10 +6,10 @@
     justify-items: center;
     width: 100vw;
     height: 100vh;
-    background-color:transparent;
+    background-color: transparent;
 }
 
-.RegistrationTitle {
+.LoginTitle {
     grid-row: 1;
     grid-column: 2;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -27,7 +27,7 @@
     flex-direction: column;
 
     gap: 10px;
-    background-color: rgba(10, 9, 9, 0.7) ;
+    background-color: rgb(10, 9, 9, 0.7) ;
     padding: 25px;
     border-radius: 10px;
     border-color: black;

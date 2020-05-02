@@ -1,0 +1,29 @@
+.App {
+  background-image: url(./assets/images/water-red-tree-branches.jpg);
+  background-repeat: no-repeat;
+
+  background-size: cover;
+  background-color: rgb(214, 208, 155);
+}
+
+.Navbar{
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  flex-direction: row;
+  background-color:  rgba(10, 9, 9, 0.7);
+  padding: 0;
+}
+
+.Link {
+  padding:10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  color: rgb(199, 195, 195);
+}
+
+.Link:hover{
+  color: rgb(199, 195, 195);
+  text-decoration: none;
+  background-color: rgba(10, 9, 9, 0.9);;
+}
