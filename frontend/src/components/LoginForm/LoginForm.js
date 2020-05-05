@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import classes from './LoginForm.module.css';
-
-let baseURL = 'http://www.onlinescheduler.tk/';
-if(window.location.href.startsWith('https://www.onlinescheduler.tk/"'))
-    baseURL = "https://www.onlinescheduler.tk/";
-else if(window.location.href.startsWith("https://onlinescheduler.tk/"))
-    baseURL = "https://onlinescheduler.tk/";
-else 
-    baseURL = "http://localhost:5000/";
+import BaseURL from '../../helpers/tools';
+import { Link } from "react-router-dom";
 
 class LoginForm extends Component{
     state = {
@@ -34,16 +29,16 @@ class LoginForm extends Component{
         const config = {
             headers: {'Content-Type': 'application/json'}
         }
-        axios.post(`${baseURL}users/auth`, data, config)
+        axios.post(`${BaseURL()}users/auth`, data, config)
             .then(response => {
-                this.setState({ success: true });
                 this.setState({ message: 'Login successfull!' });
-                console.log(response);
+                this.setState({ success: true });
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
             })
-            .catch(errors => {
+            .catch(error => {
                 this.setState({ success: false });
-                this.setState({ message: 'Login failed!'});
-                console.log(errors);
+                this.setState({ message: 'Login failed! ' + error.response.data.msg});
             });
 
         event.preventDefault();
@@ -54,7 +49,7 @@ class LoginForm extends Component{
         if(!this.state.success) {
             return (
                 <div className={classes.UserInfo}>
-                    <div class={classes.LoginTitle}> Welcome! </div>
+                    <div className={classes.LoginTitle}> Welcome! </div>
 
                     <form className={classes.Form} onSubmit={this.handleSubmit}>
                         <div className={classes.FormGroup} >
@@ -69,13 +64,17 @@ class LoginForm extends Component{
                             {this.state.message}
                         </div>
                         <button type="submit" >Login</button>
+                        <div className={classes.RegisterQuestion}>
+                            <Link className={classes.Link} to={"/register"}> Not having an account yet? Register. </Link>
+                        </div>
                     </form>
                 </div>
             );
         } else {
+            console.log("here");
             return (
                 <div className={classes.SuccessMessage}>
-                    {this.state.message}
+                    <Redirect to={{ pathname: '/dashboard' }} />
                 </div>
             )
         }

@@ -98,3 +98,11 @@
 .Form button:hold{
     background-color: rgb(223, 31, 31);
 }
+
+.RegisterQuestion {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    align-self: center;
+    background-color:transparent;
+    color: brown;
+    font-size: smaller;
+}

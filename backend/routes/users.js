@@ -21,7 +21,7 @@ router.post('/register',  async (req, res) => {
     const { email, password } = req.body;
 
     if(!email || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields' });
+        return res.status(400).json({ msg: 'Please enter all fields.' });
     }
 
     const newUser = new User({email, password});
@@ -31,34 +31,36 @@ router.post('/register',  async (req, res) => {
             tokens = generateTokens(payload)
             user.refreshTokens.push(tokens.refreshToken)
             user.save()
-                .catch(err => res.status(400).json('Error: ' + err));
+                .catch(err => {
+                    res.status(400).json({msg: "User tokens not stored, please login again."})
+                });
             res.json(tokens)
            })
-           .catch(err => res.status(400).json('Error: ' + err));
+           .catch(err => res.status(400).json({ msg: "User already exists." }));
 });
 
 router.post('/auth', (req, res) => {
     const { email, password } = req.body;
 
     if(!email || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields' });
+        return res.status(400).json({ msg: 'Please enter all fields.' });
     }
 
     User.findOne({ email })
         .then(user => {
-            if(!user) return res.status(400).json({msg: 'User does not exists'})
+            if(!user) return res.status(400).json( {msg: 'User does not exists.' });
             user.comparePassword(password, function(err, isMatch) {
                 if (err) throw err;
-                if(!isMatch) res.status(401).json('Password is incorrect');
+                if(!isMatch) res.status(401).json('Password is incorrect.');
                 const payload = { id: user.id }
                 tokens = generateTokens(payload)
                 user.refreshTokens.push(tokens.refreshToken)
                 user.save()
-                    .catch(err => res.status(400).json('Error: ' + err));
+                    .catch(err => res.status(400).json({msg: "User tokens not stored, please login again."}));
                 res.json(tokens)
             });
         })
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(400).json({msg: "Unknown error when attempting to find the user."}));
 });
 
 router.post('/token', (req, res) => {

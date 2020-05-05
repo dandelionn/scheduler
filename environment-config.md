@@ -247,3 +247,11 @@ chrome web store: [link](https://chrome.google.com/webstore/detail/advanced-rest
 
 ## Set up Let's Encrypt with Nginx Server Blocks on Ubuntu
 Follow [this](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) tutorial. 
+
+
+## Notes on React
+#### Protected Routes
+* We don't want the user to be able to acces certain routes without being logged in.
+In [this](https://medium.com/javascript-in-plain-english/how-to-set-up-protected-routes-in-your-react-application-a3254deda380) tutorial you will find out how to create protected routes when working with React.
+#### Session Storage and Local Storage in React
+* You need a way to store authentication details(token) and for this session storage and local storage can be used. Read [this](https://www.robinwieruch.de/local-storage-react).

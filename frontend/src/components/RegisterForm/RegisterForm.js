@@ -1,14 +1,8 @@
 import React, {Component} from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import classes from './RegisterForm.module.css';
-
-let baseURL = 'http://www.onlinescheduler.tk/';
-if(window.location.href.startsWith('https://www.onlinescheduler.tk/"'))
-    baseURL = "https://www.onlinescheduler.tk/";
-else if(window.location.href.startsWith("https://onlinescheduler.tk/"))
-    baseURL = "https://onlinescheduler.tk/";
-else 
-    baseURL = "http://localhost:5000/";
+import BaseURL from '../../helpers/tools';
 
 class RegisterForm extends Component{
     state = {
@@ -40,16 +34,16 @@ class RegisterForm extends Component{
         const config = {
             headers: {'Content-Type': 'application/json'}
         }
-        axios.post(`${baseURL}users/register`, data, config)
+        axios.post(`${BaseURL()}users/register`, data, config)
             .then(response => {
                 this.setState({ success: true });
                 this.setState({ message: 'Registration successfull!' });
-                console.log(response);
+                localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
             })
-            .catch(errors => {
+            .catch(error => {
                 this.setState({ success: false });
-                this.setState({ message: 'Registration failed!'});
-                console.log(errors);
+                this.setState({ message: 'Registration failed! ' + error.response.data.msg});
             });
 
         event.preventDefault();
@@ -60,8 +54,7 @@ class RegisterForm extends Component{
         if(!this.state.success) {
             return (
                 <div className={classes.UserInfo}>
-                    <div class={classes.RegistrationTitle}> Registration </div>
-
+                    <div className={classes.RegistrationTitle}> Registration </div>
                     <form className={classes.Form} onSubmit={this.handleSubmit}>
                         <div className={classes.FormGroup} >
                             <label>Email</label>
@@ -93,7 +86,7 @@ class RegisterForm extends Component{
         } else {
             return (
                 <div className={classes.SuccessMessage}>
-                    {this.state.message}
+                    <Redirect to={{ pathname: '/dashboard' }} />
                 </div>
             )
         }
