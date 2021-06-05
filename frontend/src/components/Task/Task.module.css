@@ -1,0 +1,27 @@
+.Task {
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: auto auto 1f;
+    background-color: rgb(255, 174, 0);
+    width: fit-content;
+    height: fit-content;
+    margin: 10px;
+    border-radius: 6px;
+    border: 2px;
+}
+
+.Tag {
+    grid-row: 1;
+    border-radius: 6px;
+    font-size: smaller;
+    background-color:  rgb(180, 125, 4);
+}
+
+.Description {
+    grid-row: 2;
+}
+
+.Resources {
+    grid-row: 3;
+
+}

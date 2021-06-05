@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classes from './Dashboard.module.css';
 import BaseURL from '../../helpers/tools';
 import Controlbar from '../Controlbar/Controlbar';
+import Task from '../Task/Task';
 
 class Dashboard extends Component {
     state = {
@@ -15,7 +16,16 @@ class Dashboard extends Component {
                 <div className={classes.TasksTitle}>Tasks</div>
                 <div className={classes.SectionsTitle}>Sections</div>
                 <div className={classes.IdeasTitle}>Ideas</div>
-                <div className={classes.Tasks}></div>
+                <div className={classes.Tasks}>
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                    <Task />
+                </div>
                 <div className={classes.Sections}>
                     <ul>
                         <li>testdasd</li>
